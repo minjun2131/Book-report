@@ -2,11 +2,8 @@ import { useState } from "react";
 import useToggle from "../hook/useToggle";
 import { signIn } from "../api/auth";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -24,7 +21,6 @@ const Login = () => {
     try {
       const data = await signIn(loginEmail, loginPassword);
       console.log("로그인 성공:", data);
-      dispatch(setUser(data.user));
       navigate("/");
     } catch (error) {
       console.error("로그인 실패:", error.message);

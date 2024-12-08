@@ -41,8 +41,8 @@ export const signIn = async (email, password) => {
     if (error) {
       throw new Error(error.message);
     }
-
-    return data;
+    const { access_token } = data.session;
+    return { user: data.user, accessToken: access_token };
   } catch (err) {
     console.error("로그인 에러:", err.message);
     throw err;
