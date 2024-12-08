@@ -1,12 +1,9 @@
 import { useState } from "react";
+import useToggle from "../../hook/useToggle";
 
 const EnterPassword = ({ onNext, onPrev }) => {
   const [enterPassword, setEnterPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+  const [showPassword, togglePasswordVisibility] = useToggle(false);
 
   const handleSubmit = () => {
     if (!enterPassword) {
