@@ -8,6 +8,10 @@ function SignUpMethod({ onNext, onPrev }) {
       alert("가입 방식을 선택해주세요.");
       return;
     }
+    if (method === "social") {
+      alert("현재는 이용하실 수 없습니다. 이메일 방식으로 진행해주세요.");
+      return;
+    }
     const data = { method };
     onNext(data, "이메일");
   };

@@ -1,17 +1,20 @@
-import { useState } from "react";
 import useToggle from "../../hook/useToggle";
+import usePasswordValidation from "../../hook/usePasswordValidation";
 
 const EnterPassword = ({ onNext, onPrev }) => {
-  const [enterPassword, setEnterPassword] = useState("");
   const [showPassword, togglePasswordVisibility] = useToggle(false);
 
+  const { enterPassword, validation, handlePasswordChange, validatePassword } =
+    usePasswordValidation();
+
   const handleSubmit = () => {
-    if (!enterPassword) {
-      alert("비밀번호를 입력해주세요.");
-      return;
+    const isValid = validatePassword(enterPassword);
+    if (isValid) {
+      const data = { enterPassword };
+      onNext(data, "닉네임");
+    } else {
+      alert("실시간 유효성 검사를 다시 확인해주세요.");
     }
-    const data = { enterPassword };
-    onNext(data, "비밀번호 확인");
   };
   return (
     <div>
@@ -19,9 +22,12 @@ const EnterPassword = ({ onNext, onPrev }) => {
       <input
         type={showPassword ? "text" : "password"}
         value={enterPassword}
-        onChange={(e) => setEnterPassword(e.target.value)}
+        onChange={handlePasswordChange}
         placeholder="비밀번호 입력"
       />
+      {validation.message && (
+        <p style={{ color: validation.color }}>{validation.message}</p>
+      )}
       <button type="button" onClick={togglePasswordVisibility}>
         비밀번호 보기
       </button>

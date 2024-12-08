@@ -1,30 +1,56 @@
 import { useState } from "react";
 import useToggle from "../hook/useToggle";
+import { signIn } from "../api/auth";
+import { useNavigate } from "react-router-dom";
+import { setUser } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
-  const [value, setValue] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
   const [showPassword, togglePasswordVisibility] = useToggle(false);
 
+  const enterEmail = (e) => {
+    setLoginEmail(e.target.value);
+  };
+  const enterPassword = (e) => {
+    setLoginPassword(e.target.value);
+  };
+
+  const loginSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await signIn(loginEmail, loginPassword);
+      console.log("로그인 성공:", data);
+      dispatch(setUser(data.user));
+      navigate("/");
+    } catch (error) {
+      console.error("로그인 실패:", error.message);
+    }
+    console.log(loginEmail, loginPassword);
+  };
   return (
-    <form>
+    <form onSubmit={loginSubmit}>
       <div>
-        <label name="email" value="email" />
+        <label htmlFor="email" value="email" />
         <input
-          id="email"
           type="text"
-          onChange={value}
+          onChange={enterEmail}
           placeholder="아이디를 입력해주세요."
         />
+        <label htmlFor="password" value="password" />
         <input
           id="password"
           type={showPassword ? "text" : "password"}
-          onChange={value}
+          onChange={enterPassword}
           placeholder="비밀번호를 입력해주세요."
         />
         <button type="button" onClick={togglePasswordVisibility}>
           비밀번호 보기
         </button>
-        <button>입력</button>
+        <button type="submit">입력</button>
       </div>
     </form>
   );

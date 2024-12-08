@@ -33,7 +33,7 @@ const SignUp = () => {
       <Step name="비밀번호">
         <EnterPassword
           onNext={(data) => handleNext(data, "닉네임")}
-          onPrev={() => handlePrev("회원가입")}
+          onPrev={() => handlePrev("이메일")}
         />
       </Step>
       <Step name="닉네임">
@@ -43,7 +43,7 @@ const SignUp = () => {
         />
       </Step>
       <Step name="가입성공">
-        <SuccessPage userData={userData} />
+        <SuccessPage userData={userData} onPrev={() => handlePrev("닉네임")} />
       </Step>
     </Funnel>
   );
