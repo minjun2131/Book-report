@@ -5,7 +5,7 @@ const naverSecret = import.meta.env.VITE_NAVER_SECRET;
 console.log(naverKey, naverSecret);
 
 const api = axios.create({
-  baseURL: "/api/book.json",
+  baseURL: "https://openapi.naver.com/v1/search/book.json",
   headers: {
     "X-Naver-Client-Id": naverKey,
     "X-Naver-Client-Secret": naverSecret,
