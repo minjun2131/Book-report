@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
 import Main from "../pages/Main";
 import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
@@ -7,6 +6,7 @@ import MyBook from "../pages/MyBook";
 import ProtectedRoute from "./ProtectedRoute";
 import { useEffect, useState } from "react";
 import { supabase } from "../api/supabase";
+import BookReview from "../pages/BookReview";
 
 function Router() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -32,13 +32,11 @@ function Router() {
       authListener?.subscription.unsubscribe();
     };
   }, []);
-  console.log(isAuthenticated);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/main" element={<Main />} />
+        <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route
@@ -50,6 +48,7 @@ function Router() {
           }
         >
           <Route path="/mybook" element={<MyBook />} />
+          <Route path="/review/:id" element={<BookReview />} />
         </Route>
       </Routes>
     </BrowserRouter>
